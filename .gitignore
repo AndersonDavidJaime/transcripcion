@@ -1,44 +1,8 @@
-# Archivos y carpetas de Python
 __pycache__/
-*.py[cod]
-*.pyo
-*.pyd
-*.pdb
-*.pkl
-*.egg-info/
-*.egg
-*.log
-
-# Entornos virtuales
-.env
-.venv
-env/
-venv/
-ENV/
-
-# Configuración local
-.DS_Store
-Thumbs.db
-
-# Archivos de Streamlit
-.streamlit/secrets.toml
-
-# Archivos temporales
-*.tmp
-*.temp
-*.swp
-*.swo
-*.bak
-
-# Archivos generados por el sistema
-*.db
-*.sqlite3
-
-# Archivos multimedia generados
+*.pyc
 *.wav
 *.mp3
 *.m4a
-
-# Carpeta de pruebas temporales
-temp/
-tmp/
+*.aac
+venv/
+.env
