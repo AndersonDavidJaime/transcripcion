@@ -2,10 +2,10 @@ import streamlit as st
 import requests
 import base64
 import tempfile
-import sounddevice as sd
 import soundfile as sf
 from io import BytesIO
 import subprocess
+import os
 
 st.title("🎤 Audio ↔ Texto ↔ Voz con AWS")
 
@@ -13,29 +13,13 @@ API_URL = "https://pqawnl4myd.execute-api.us-east-1.amazonaws.com/default/funcio
 
 st.header("Audio a texto")
 st.markdown("""
-Graba tu audio o sube un archivo (.wav o .mp3 simples) para transcribirlo y generar audio con Polly.
+Sube un archivo de audio (.wav, .mp3 o .aac) para transcribirlo y generar audio con Polly.
 """)
-
-# ---------------------------
-# Grabación desde navegador
-# ---------------------------
-duration = st.number_input("Duración de la grabación (segundos):", min_value=1, max_value=30, value=5)
-audio_file = None
-
-if st.button("Grabar Audio"):
-    st.info("Grabando...")
-    recording = sd.rec(int(duration * 44100), samplerate=44100, channels=1)
-    sd.wait()
-    temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
-    sf.write(temp_file.name, recording, 44100)
-    st.success("Grabación finalizada!")
-    audio_file = temp_file.name
-    st.audio(audio_file)
 
 # ---------------------------
 # Upload de archivos
 # ---------------------------
-uploaded_file = st.file_uploader("O sube un archivo de audio (.wav, .mp3 o .aac)", type=["wav", "mp3", "aac"])
+uploaded_file = st.file_uploader("O sube un archivo de audio", type=["wav", "mp3", "aac"])
 audio_bytes = None
 
 if uploaded_file:
@@ -60,10 +44,6 @@ if uploaded_file:
 
     except Exception as e:
         st.error(f"Formato no soportado. Usa WAV, MP3 o AAC. Error: {str(e)}")
-
-elif audio_file:
-    with open(audio_file, "rb") as f:
-        audio_bytes = f.read()
 
 # ---------------------------
 # Procesar audio
